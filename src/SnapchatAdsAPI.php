@@ -50,7 +50,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    private function parseRequest(array $list, string $entity, string $class) : array
+    private function parseRequest(array $list, string $entity, string $class): array
     {
         if (!class_exists($class)) {
             throw new \Exception($class . ' class does not exists');
@@ -143,7 +143,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function createCampaigns(array $campaigns, string $ad_account_id) : array
+    public function createCampaigns(array $campaigns, string $ad_account_id): array
     {
         $result = $this->client->post("/adaccounts/{$ad_account_id}/campaigns",
             ['campaigns' => $campaigns]);
@@ -163,7 +163,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function updateCampaigns(array $campaigns, string $ad_account_id) : array
+    public function updateCampaigns(array $campaigns, string $ad_account_id): array
     {
         $result = $this->client->put("/adaccounts/{$ad_account_id}/campaigns",
             ['campaigns' => $campaigns]);
@@ -178,7 +178,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function getAllCampaigns(string $adAccountId) : array
+    public function getAllCampaigns(string $adAccountId): array
     {
         $result = $this->client->get("/adaccounts/{$adAccountId}/campaigns");
         if ($this->client->checkResponse($result)) {
@@ -192,7 +192,7 @@ class SnapchatAdsAPI
      * @return Campaign
      * @throws \Exception
      */
-    public function getCampaign($id) : Campaign
+    public function getCampaign($id): Campaign
     {
         $result = $this->client->get("/campaigns/$id");
         if ($this->client->checkResponse($result)) {
@@ -205,7 +205,7 @@ class SnapchatAdsAPI
      * @param string $id
      * @return bool
      */
-    public function deleteCampaign(string $id) : bool
+    public function deleteCampaign(string $id): bool
     {
         $result = $this->client->delete("/campaigns/$id");
         return $this->client->checkResponse($result);
@@ -219,7 +219,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function createAdSquads(array $adSquads, $campaignId) : array
+    public function createAdSquads(array $adSquads, $campaignId): array
     {
         $result = $this->client->post("/campaigns/{$campaignId}/adsquads",
             ['adsquads' => $adSquads]);
@@ -238,7 +238,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function updateAdSquads(array $adSquads, string $campaignId) : array
+    public function updateAdSquads(array $adSquads, string $campaignId): array
     {
         $result = $this->client->put("/campaigns/{$campaignId}/adsquads",
             ['adsquads' => $adSquads]);
@@ -281,7 +281,7 @@ class SnapchatAdsAPI
      * @param string $id
      * @return bool
      */
-    public function deleteAdSquad(string $id) : bool
+    public function deleteAdSquad(string $id): bool
     {
         $result = $this->client->delete("/adsquads/$id");
         return $this->client->checkResponse($result);
@@ -330,7 +330,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function getAllAdsAnAdSquad(string $adSquadId) : array
+    public function getAllAdsAnAdSquad(string $adSquadId): array
     {
         $result = $this->client->get("/adsquads/{$adSquadId}/ads");
         if ($this->client->checkResponse($result)) {
@@ -344,7 +344,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function getAllAdsAnAdAccount(string $adAccountId) : array
+    public function getAllAdsAnAdAccount(string $adAccountId): array
     {
         $result = $this->client->get("/adaccounts/{$adAccountId}/ads");
         if ($this->client->checkResponse($result)) {
@@ -358,7 +358,7 @@ class SnapchatAdsAPI
      * @return Ad
      * @throws \Exception
      */
-    public function getAd(string $id) : Ad
+    public function getAd(string $id): Ad
     {
         $result = $this->client->get("/ads/$id");
         if ($this->client->checkResponse($result)) {
@@ -371,7 +371,7 @@ class SnapchatAdsAPI
      * @param string $id
      * @return bool
      */
-    public function deleteAd(string $id) : bool
+    public function deleteAd(string $id): bool
     {
         $result = $this->client->delete("/ads/$id");
         return $this->client->checkResponse($result);
@@ -383,7 +383,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function createMedia(array $media, string $adAccountId) : array
+    public function createMedia(array $media, string $adAccountId): array
     {
         $result = $this->client->post("/adaccounts/{$adAccountId}/media",
             ['media' => $media]);
@@ -397,9 +397,9 @@ class SnapchatAdsAPI
      * @param Media $media
      * @param string $pathToFile
      * @param string $fileName
-     * @return array
+     * @return array|bool
      */
-    public function uploadMediaVideo(Media $media, string $pathToFile, string $fileName): array
+    public function uploadMediaVideo(Media $media, string $pathToFile, string $fileName)
     {
         if ($media->type !== Media::TYPE_VIDEO) {
             return ['errors' => 'Wrong media type'];
@@ -433,7 +433,7 @@ class SnapchatAdsAPI
      * @return Media
      * @throws \Exception
      */
-    public function getMedia(string $id) : Media
+    public function getMedia(string $id): Media
     {
         $result = $this->client->get("/media/$id");
         if ($this->client->checkResponse($result)) {
@@ -448,7 +448,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function createCreatives(array $creatives, string $adAccountId) : array
+    public function createCreatives(array $creatives, string $adAccountId): array
     {
         $result = $this->client->post("/adaccounts/{$adAccountId}/creatives",
             ['creatives' => $creatives]);
@@ -466,7 +466,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function getAllCreatives(string $adAccountId) :array
+    public function getAllCreatives(string $adAccountId): array
     {
         $result = $this->client->get("/adaccounts/{$adAccountId}/creatives");
         if ($this->client->checkResponse($result)) {
@@ -480,7 +480,7 @@ class SnapchatAdsAPI
      * @return Creative
      * @throws \Exception
      */
-    public function getCreative(string $id) : Creative
+    public function getCreative(string $id): Creative
     {
         $result = $this->client->get("/creatives/$id");
         if ($this->client->checkResponse($result)) {
@@ -538,7 +538,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function getGEOFilterPriceQuote(string $accountId, PriceQuoteQuery $priceQuoteQuery) : array
+    public function getGEOFilterPriceQuote(string $accountId, PriceQuoteQuery $priceQuoteQuery): array
     {
         $result = $this->client->post("/adaccounts/{$accountId}/geo_filter_quote", $priceQuoteQuery);
         if ($this->client->checkResponse($result)) {
@@ -552,7 +552,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function getPixelsInAdAccount(string $adAccountId) : array
+    public function getPixelsInAdAccount(string $adAccountId): array
     {
         $result = $this->client->get("/adaccounts/{$adAccountId}/pixels");
         if ($this->client->checkResponse($result)) {
@@ -566,7 +566,7 @@ class SnapchatAdsAPI
      * @return Pixel
      * @throws \Exception
      */
-    public function getPixel(string $id) : Pixel
+    public function getPixel(string $id): Pixel
     {
         $result = $this->client->get("/pixels/$id");
         if ($this->client->checkResponse($result)) {
@@ -583,7 +583,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function updatePixels(array $pixels, string $adAccountId) : array
+    public function updatePixels(array $pixels, string $adAccountId): array
     {
         $result = $this->client->post("/adaccounts/{$adAccountId}/pixels",
             ['pixels' => $pixels]);
@@ -598,7 +598,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function getPixelDomains(string $pixelId) : array
+    public function getPixelDomains(string $pixelId): array
     {
         $result = $this->client->get("/pixels/{$pixelId}/domains/stats");
         if ($this->client->checkResponse($result)) {
@@ -672,7 +672,7 @@ class SnapchatAdsAPI
      * @return array
      * @throws \Exception
      */
-    public function createLoakalikeSegments(array $segments, string $adAccountId) : array
+    public function createLoakalikeSegments(array $segments, string $adAccountId): array
     {
         $result = $this->client->post("/adaccounts/{$adAccountId}/segments",
             ['segments' => $segments]);

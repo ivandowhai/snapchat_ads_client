@@ -57,7 +57,7 @@ abstract class SnapchatEntity
         }
     }
 
-    public function validateInArray(string $field, string $array)
+    protected function validateInArray(string $field, string $array)
     {
         if (array_key_exists('status', $this->data)
             && !in_array($this->data[$field], static::$$array)) {
@@ -65,7 +65,7 @@ abstract class SnapchatEntity
         }
     }
 
-    public function validateInstanseof(string $field, string $className)
+    protected function validateInstanseof(string $field, string $className)
     {
         if (array_key_exists($field, $this->data)
             && !($this->data[$field] instanceof $className)) {
@@ -73,14 +73,14 @@ abstract class SnapchatEntity
         }
     }
 
-    public function validateIsBool(string $field)
+    protected function validateIsBool(string $field)
     {
         if (array_key_exists($field, $this->data) && !is_bool($this->data[$field])) {
             $this->addError("$field must be bool");
         }
     }
 
-    public function validateIsInt(string $field)
+    protected function validateIsInt(string $field)
     {
         if (array_key_exists($field, $this->data) && !is_int($this->data[$field])) {
             $this->addError("$field must be integer");
