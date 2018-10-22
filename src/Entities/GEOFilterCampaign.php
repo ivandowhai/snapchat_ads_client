@@ -10,7 +10,12 @@ class GEOFilterCampaign extends Campaign
 
     private $readOnly = ['status', 'daily_budget_micro'];
 
-    public function __construct($data)
+    /**
+     * GEOFilterCampaign constructor.
+     * @param array $data
+     * @throws \Exception
+     */
+    public function __construct(array $data)
     {
         SnapchatEntity::__construct($data);
     }

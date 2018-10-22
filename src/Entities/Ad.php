@@ -49,12 +49,17 @@ class Ad extends SnapchatEntity
         'type'
     ];
 
+    /**
+     * Ad constructor.
+     * @param array $data
+     * @throws \Exception
+     */
     public function __construct(array $data)
     {
         parent::__construct($data);
     }
 
-    protected function validateData()
+    protected function validateData(): void
     {
         parent::validateData();
         $this->validateInArray('status', 'statuses');

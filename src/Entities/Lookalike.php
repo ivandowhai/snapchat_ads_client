@@ -18,13 +18,18 @@ class Lookalike extends SnapchatEntity
 
     protected $requiredFields = ['ad_account_id', 'creation_spec', 'name', 'retention_in_days', 'source_type'];
 
+    /**
+     * Lookalike constructor.
+     * @param array $data
+     * @throws \Exception
+     */
     public function __construct(array $data)
     {
         parent::__construct($data);
         $this->source_type = self::SOURCE_TYPE_LOOKALIKE;
     }
 
-    protected function validateData()
+    protected function validateData(): void
     {
         parent::validateData();
         $this->validateInstanseof('creation_spec', 'CreationSpec');

@@ -16,7 +16,6 @@ use Snapchat\Entities\Targeting;
 class SnapchatAdsAPI
 {
 
-
     /**
      * @var HTTPClientInterface
      */
@@ -72,7 +71,7 @@ class SnapchatAdsAPI
      */
     public function getAuthUser()
     {
-        $result = $this->client->get('https://adsapi.snapchat.com/v1/me');
+        $result = $this->client->get('/me');
         if (isset($result['me'])) {
             return $result['me'];
         }
@@ -86,7 +85,7 @@ class SnapchatAdsAPI
      */
     public function getAllOrganizations(): array 
     {
-        $result = $this->client->get('https://adsapi.snapchat.com/v1/me/organizations');
+        $result = $this->client->get('/me/organizations');
         if ($this->client->checkResponse($result)) {
             return $result;
         }
@@ -101,7 +100,7 @@ class SnapchatAdsAPI
      */
     public function getOrganization(string $id): array
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/organizations/$id");
+        $result = $this->client->get("/organizations/$id");
         if ($this->client->checkResponse($result)) {
             return $result;
         }
@@ -115,7 +114,7 @@ class SnapchatAdsAPI
      */
     public function getAllAccounts(string $organizationId): array
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/organizations/$organizationId/adaccounts");
+        $result = $this->client->get("/organizations/$organizationId/adaccounts");
         if ($this->client->checkResponse($result)) {
             return $result;
         }
@@ -129,7 +128,7 @@ class SnapchatAdsAPI
      */
     public function getAccount(string $id): array
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/adaccounts/$id");
+        $result = $this->client->get("/adaccounts/$id");
         if ($this->client->checkResponse($result)) {
             return $result;
         }
@@ -146,7 +145,7 @@ class SnapchatAdsAPI
      */
     public function createCampaigns(array $campaigns, string $ad_account_id) : array
     {
-        $result = $this->client->post("https://adsapi.snapchat.com/v1/adaccounts/{$ad_account_id}/campaigns",
+        $result = $this->client->post("/adaccounts/{$ad_account_id}/campaigns",
             ['campaigns' => $campaigns]);
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['campaigns'], 'campaign', 'Campaign');
@@ -166,7 +165,7 @@ class SnapchatAdsAPI
      */
     public function updateCampaigns(array $campaigns, string $ad_account_id) : array
     {
-        $result = $this->client->put("https://adsapi.snapchat.com/v1/adaccounts/{$ad_account_id}/campaigns",
+        $result = $this->client->put("/adaccounts/{$ad_account_id}/campaigns",
             ['campaigns' => $campaigns]);
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['campaigns'], 'campaign', 'Campaign');
@@ -181,7 +180,7 @@ class SnapchatAdsAPI
      */
     public function getAllCampaigns(string $adAccountId) : array
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/adaccounts/{$adAccountId}/campaigns");
+        $result = $this->client->get("/adaccounts/{$adAccountId}/campaigns");
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['campaigns'], 'campaign', 'Campaign');
         }
@@ -191,11 +190,11 @@ class SnapchatAdsAPI
     /**
      * @param $id
      * @return Campaign
-     * @throws \Exception\
+     * @throws \Exception
      */
     public function getCampaign($id) : Campaign
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/campaigns/$id");
+        $result = $this->client->get("/campaigns/$id");
         if ($this->client->checkResponse($result)) {
             return new Campaign($result['campaigns'][0]['campaign']);
         }
@@ -208,7 +207,7 @@ class SnapchatAdsAPI
      */
     public function deleteCampaign(string $id) : bool
     {
-        $result = $this->client->delete("https://adsapi.snapchat.com/v1/campaigns/$id");
+        $result = $this->client->delete("/campaigns/$id");
         return $this->client->checkResponse($result);
     }
 
@@ -222,7 +221,7 @@ class SnapchatAdsAPI
      */
     public function createAdSquads(array $adSquads, $campaignId) : array
     {
-        $result = $this->client->post("https://adsapi.snapchat.com/v1/campaigns/{$campaignId}/adsquads",
+        $result = $this->client->post("/campaigns/{$campaignId}/adsquads",
             ['adsquads' => $adSquads]);
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['adsquads'], 'adsquad', 'AdSquad');
@@ -241,7 +240,7 @@ class SnapchatAdsAPI
      */
     public function updateAdSquads(array $adSquads, string $campaignId) : array
     {
-        $result = $this->client->put("https://adsapi.snapchat.com/v1/campaigns/{$campaignId}/adsquads",
+        $result = $this->client->put("/campaigns/{$campaignId}/adsquads",
             ['adsquads' => $adSquads]);
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['adsquads'], 'adsquad', 'AdSquad');
@@ -256,7 +255,7 @@ class SnapchatAdsAPI
      */
     public function getAllAdSquadsUnderCampaign(string $campaignId): array 
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/campaigns/{$campaignId}/adsquads");
+        $result = $this->client->get("/campaigns/{$campaignId}/adsquads");
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['adsquads'], 'adsquad', 'AdSquad');
         }
@@ -270,7 +269,7 @@ class SnapchatAdsAPI
      */
     public function getAllAdSquadsUnderAdAccount(string $adAccountId): array 
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/adaccounts/{$adAccountId}/adsquads");
+        $result = $this->client->get("/adaccounts/{$adAccountId}/adsquads");
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['adsquads'], 'adsquad', 'AdSquad');
         }
@@ -284,7 +283,7 @@ class SnapchatAdsAPI
      */
     public function deleteAdSquad(string $id) : bool
     {
-        $result = $this->client->delete("https://adsapi.snapchat.com/v1/adsquads/$id");
+        $result = $this->client->delete("/adsquads/$id");
         return $this->client->checkResponse($result);
     }
 
@@ -298,7 +297,7 @@ class SnapchatAdsAPI
      */
     public function createAds(array $ads, string $adSquadId): array 
     {
-        $result = $this->client->post("https://adsapi.snapchat.com/v1/adsquads/{$adSquadId}/ads",
+        $result = $this->client->post("/adsquads/{$adSquadId}/ads",
             ['ads' => $ads]);
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['ads'], 'ad', 'Ad');
@@ -318,7 +317,7 @@ class SnapchatAdsAPI
      */
     public function updateAds(array $ads, string $adSquadId): array 
     {
-        $result = $this->client->put("https://adsapi.snapchat.com/v1/adsquads/{$adSquadId}/ads",
+        $result = $this->client->put("/adsquads/{$adSquadId}/ads",
             ['ads' => $ads]);
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['ads'], 'ad', 'Ad');
@@ -333,7 +332,7 @@ class SnapchatAdsAPI
      */
     public function getAllAdsAnAdSquad(string $adSquadId) : array
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/adsquads/{$adSquadId}/ads");
+        $result = $this->client->get("/adsquads/{$adSquadId}/ads");
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['ads'], 'ad', 'Ad');
         }
@@ -347,7 +346,7 @@ class SnapchatAdsAPI
      */
     public function getAllAdsAnAdAccount(string $adAccountId) : array
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/adaccounts/{$adAccountId}/ads");
+        $result = $this->client->get("/adaccounts/{$adAccountId}/ads");
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['ads'], 'ad', 'Ad');
         }
@@ -361,7 +360,7 @@ class SnapchatAdsAPI
      */
     public function getAd(string $id) : Ad
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/ads/$id");
+        $result = $this->client->get("/ads/$id");
         if ($this->client->checkResponse($result)) {
             return new Ad($result['ads'][0]['ad']);
         }
@@ -374,7 +373,7 @@ class SnapchatAdsAPI
      */
     public function deleteAd(string $id) : bool
     {
-        $result = $this->client->delete("https://adsapi.snapchat.com/v1/ads/$id");
+        $result = $this->client->delete("/ads/$id");
         return $this->client->checkResponse($result);
     }
 
@@ -386,7 +385,7 @@ class SnapchatAdsAPI
      */
     public function createMedia(array $media, string $adAccountId) : array
     {
-        $result = $this->client->post("https://adsapi.snapchat.com/v1/adaccounts/{$adAccountId}/media",
+        $result = $this->client->post("/adaccounts/{$adAccountId}/media",
             ['media' => $media]);
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['media'], 'media', 'Media');
@@ -406,7 +405,7 @@ class SnapchatAdsAPI
             return ['errors' => 'Wrong media type'];
         }
 
-        $result = $this->client->upload("https://adsapi.snapchat.com/v1/media/{$media->id}/upload", $pathToFile, $fileName);
+        $result = $this->client->upload("/media/{$media->id}/upload", $pathToFile, $fileName);
         return $this->client->checkResponse($result);
     }
 
@@ -423,7 +422,7 @@ class SnapchatAdsAPI
             return $errors;
         }
 
-        $result = $this->client->upload("https://adsapi.snapchat.com/v1/media/{$media->id}/upload", $pathToFile, $fileName);
+        $result = $this->client->upload("/media/{$media->id}/upload", $pathToFile, $fileName);
         return $this->client->checkResponse($result);
     }
 
@@ -436,7 +435,7 @@ class SnapchatAdsAPI
      */
     public function getMedia(string $id) : Media
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/media/$id");
+        $result = $this->client->get("/media/$id");
         if ($this->client->checkResponse($result)) {
             return new Media($result['media'][0]['media']);
         }
@@ -451,7 +450,7 @@ class SnapchatAdsAPI
      */
     public function createCreatives(array $creatives, string $adAccountId) : array
     {
-        $result = $this->client->post("https://adsapi.snapchat.com/v1/adaccounts/{$adAccountId}/creatives",
+        $result = $this->client->post("/adaccounts/{$adAccountId}/creatives",
             ['creatives' => $creatives]);
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['creatives'], 'creative', 'Creative');
@@ -469,7 +468,7 @@ class SnapchatAdsAPI
      */
     public function getAllCreatives(string $adAccountId) :array
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/adaccounts/{$adAccountId}/creatives");
+        $result = $this->client->get("/adaccounts/{$adAccountId}/creatives");
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['creatives'], 'creative', 'Creative');
         }
@@ -483,7 +482,7 @@ class SnapchatAdsAPI
      */
     public function getCreative(string $id) : Creative
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/creatives/$id");
+        $result = $this->client->get("/creatives/$id");
         if ($this->client->checkResponse($result)) {
             return new Ad($result['creatives'][0]['creative']);
         }
@@ -497,7 +496,7 @@ class SnapchatAdsAPI
      */
     public function getSnapcode(Creative $creative)
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/creatives/{$creative->id}/snapcode");
+        $result = $this->client->get("/creatives/{$creative->id}/snapcode");
         if ($this->client->checkResponse($result)) {
             return [
                 'creative_id' => $result['creative_id'],
@@ -522,7 +521,7 @@ class SnapchatAdsAPI
         }
 
         $endpoint = Stats::getEndpoint($type);
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/{$endpoint}/{$id}/stats", $statsQuery);
+        $result = $this->client->get("/{$endpoint}/{$id}/stats", $statsQuery);
         if ($this->client->checkResponse($result)) {
             return new Stats($result['total_stats'][0]['total_stat']['stats']);
         }
@@ -541,7 +540,7 @@ class SnapchatAdsAPI
      */
     public function getGEOFilterPriceQuote(string $accountId, PriceQuoteQuery $priceQuoteQuery) : array
     {
-        $result = $this->client->post("https://adsapi.snapchat.com/v1/adaccounts/{$accountId}/geo_filter_quote", $priceQuoteQuery);
+        $result = $this->client->post("/adaccounts/{$accountId}/geo_filter_quote", $priceQuoteQuery);
         if ($this->client->checkResponse($result)) {
             return $result['geo_filter_quote'];
         }
@@ -555,7 +554,7 @@ class SnapchatAdsAPI
      */
     public function getPixelsInAdAccount(string $adAccountId) : array
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/adaccounts/{$adAccountId}/pixels");
+        $result = $this->client->get("/adaccounts/{$adAccountId}/pixels");
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['pixels'], 'pixel', 'Pixel');
         }
@@ -569,7 +568,7 @@ class SnapchatAdsAPI
      */
     public function getPixel(string $id) : Pixel
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/pixels/$id");
+        $result = $this->client->get("/pixels/$id");
         if ($this->client->checkResponse($result)) {
             return new Pixel($result['pixels'][0]['pixel']);
         }
@@ -586,7 +585,7 @@ class SnapchatAdsAPI
      */
     public function updatePixels(array $pixels, string $adAccountId) : array
     {
-        $result = $this->client->post("https://adsapi.snapchat.com/v1/adaccounts/{$adAccountId}/pixels",
+        $result = $this->client->post("/adaccounts/{$adAccountId}/pixels",
             ['pixels' => $pixels]);
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['pixels'], 'pixel', 'Pixel');
@@ -601,7 +600,7 @@ class SnapchatAdsAPI
      */
     public function getPixelDomains(string $pixelId) : array
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/pixels/{$pixelId}/domains/stats");
+        $result = $this->client->get("/pixels/{$pixelId}/domains/stats");
         if ($this->client->checkResponse($result)) {
             return $result['timeseries_stats'][0]['timeseries_stat']['domains'];
         }
@@ -616,7 +615,7 @@ class SnapchatAdsAPI
      */
     public function getPixelStatsForSpecificDomain(string $pixelId, PixelStatsQuery $pixelStatsQuery)
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/pixels/{$pixelId}/stats", $pixelStatsQuery);
+        $result = $this->client->get("/pixels/{$pixelId}/stats", $pixelStatsQuery);
         if ($this->client->checkResponse($result)) {
             return $result['timeseries_stats'][0]['timeseries_stat']['timeseries'];
         }
@@ -639,9 +638,9 @@ class SnapchatAdsAPI
         Targeting::validateTargetingLinkParts($part, $subpart, $advancedOption);
 
         if (array_key_exists($subpart, Targeting::getDifficultParts())) {
-            $url = "https://adsapi.snapchat.com/v1/targeting/{$part}/{$advancedOption}/{$subpart}";
+            $url = "/targeting/{$part}/{$advancedOption}/{$subpart}";
         } else {
-            $url = "https://adsapi.snapchat.com/v1/targeting/{$part}/{$subpart}";
+            $url = "/targeting/{$part}/{$subpart}";
         }
 
         $result = $this->client->get($url, $queryParams);
@@ -659,7 +658,7 @@ class SnapchatAdsAPI
      */
     public function getTargetingTypeSupport(string $countryCode): array
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/targeting/options/{$countryCode}");
+        $result = $this->client->get("/targeting/options/{$countryCode}");
         if ($this->client->checkResponse($result)) {
             return $result['targeting_option'];
         }
@@ -675,7 +674,7 @@ class SnapchatAdsAPI
      */
     public function createLoakalikeSegments(array $segments, string $adAccountId) : array
     {
-        $result = $this->client->post("https://adsapi.snapchat.com/v1/adaccounts/{$adAccountId}/segments",
+        $result = $this->client->post("/adaccounts/{$adAccountId}/segments",
             ['segments' => $segments]);
         if ($this->client->checkResponse($result)) {
             return $this->parseRequest($result['segments'], 'segment', 'Lookalike');
@@ -691,7 +690,7 @@ class SnapchatAdsAPI
      */
     public function getAudienceSizeByAdSquad(string $adSquadId)
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/adsquads/{$adSquadId}/audience_size");
+        $result = $this->client->get("/adsquads/{$adSquadId}/audience_size");
         if ($this->client->checkResponse($result)) {
             return $result['audience_size'];
         }
@@ -705,7 +704,7 @@ class SnapchatAdsAPI
      */
     public function getAudienceSizeByTargetingSpec(string $adAccountId)
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/adaccounts/{$adAccountId}/audience_size");
+        $result = $this->client->get("/adaccounts/{$adAccountId}/audience_size");
         if ($this->client->checkResponse($result)) {
             return $result['audience_size'];
         }
@@ -719,7 +718,7 @@ class SnapchatAdsAPI
      */
     public function getBidEstimateByAdSquad(string $adSquadId)
     {
-        $result = $this->client->get("https://adsapi.snapchat.com/v1/adsquads/{$adSquadId}/bid_estimate");
+        $result = $this->client->get("/adsquads/{$adSquadId}/bid_estimate");
         if ($this->client->checkResponse($result)) {
             return $result['bid_estimate'];
         }
@@ -735,7 +734,7 @@ class SnapchatAdsAPI
      */
     public function getBidEstimateByTargetingSpec(string $adAccountId, Targeting $targeting, string $optimization_goal)
     {
-        $result = $this->client->post("https://adsapi.snapchat.com/v1/adaccounts/{$adAccountId}/bid_estimate",
+        $result = $this->client->post("/adaccounts/{$adAccountId}/bid_estimate",
             ['optimization_goal' => $optimization_goal, 'targeting' => $targeting]);
         if ($this->client->checkResponse($result)) {
             return $result['audience_size'];

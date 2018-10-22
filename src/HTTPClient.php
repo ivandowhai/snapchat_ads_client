@@ -7,6 +7,10 @@ use GuzzleHttp\Client;
 class HTTPClient implements HTTPClientInterface
 {
 
+    const API_DOMAIN = 'https://adsapi.snapchat.com';
+
+    const API_VERSION = 'v1';
+
     /**
      * @var Token
      */
@@ -70,7 +74,7 @@ class HTTPClient implements HTTPClientInterface
      */
     public function get(string $url, array $query = []): array
     {
-        return json_decode($this->httpClient->get($url, [
+        return json_decode($this->httpClient->get($this->makeURI($url), [
             'headers' => $this->headersGet,
             'query' => $query
         ]), true);
@@ -84,7 +88,7 @@ class HTTPClient implements HTTPClientInterface
      */
     public function post(string $url, array $body): array
     {
-        return json_decode($this->httpClient->post($url, [
+        return json_decode($this->httpClient->post($this->makeURI($url), [
             'headers' => $this->headersPost,
             'body' => $body
         ]), true);
@@ -97,7 +101,7 @@ class HTTPClient implements HTTPClientInterface
      */
     public function put(string $url, array $body): array
     {
-        return json_decode($this->httpClient->put($url, [
+        return json_decode($this->httpClient->put($this->makeURI($url), [
             'headers' => $this->headersPost,
             'body' => $body
         ]), true);
@@ -109,7 +113,7 @@ class HTTPClient implements HTTPClientInterface
      */
     public function delete(string $url): array
     {
-        return json_decode($this->httpClient->get($url, [
+        return json_decode($this->httpClient->get($this->makeURI($url), [
             'headers' => $this->headersGet
         ]), true);
     }
@@ -122,7 +126,7 @@ class HTTPClient implements HTTPClientInterface
      */
     public function upload(string $url, string $pathToFile, string $fileName): array
     {
-        return json_decode($this->httpClient->post($url, [
+        return json_decode($this->httpClient->post($this->makeURI($url), [
             'headers' => $this->headersUpload,
             'multipart' => [
                 'name' => time(),
@@ -153,5 +157,14 @@ class HTTPClient implements HTTPClientInterface
             return new Token($result);
         }
         throw new \Exception('Not access token');
+    }
+
+    /**
+     * @param string $url
+     * @return string
+     */
+    private function makeURI(string $url): string
+    {
+        return self::API_DOMAIN . DIRECTORY_SEPARATOR . self::API_VERSION . DIRECTORY_SEPARATOR . $url;
     }
 }

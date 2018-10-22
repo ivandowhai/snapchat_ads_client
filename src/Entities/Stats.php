@@ -25,17 +25,25 @@ class Stats extends SnapchatEntity
     public $screen_time_millis;
 
 
-    public function validateData()
+    public function validateData(): void
     {
         parent::validateData();
     }
 
-    public static function validateType($type) : bool
+    /**
+     * @param $type
+     * @return bool
+     */
+    public static function validateType($type): bool
     {
         return array_key_exists($type, self::$types);
     }
 
-    public static function getEndpoint($type) : string
+    /**
+     * @param $type
+     * @return string
+     */
+    public static function getEndpoint($type): string
     {
         return self::$types[$type];
     }

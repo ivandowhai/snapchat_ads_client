@@ -23,7 +23,12 @@ class GEOFilterAdSquad extends AdSquad
 
     private static $readOnly = ['billing_event', 'optimization_goal', 'placement', 'status', 'type', 'bid_micro', 'daily_budget_micro'];
 
-    public function __construct($data)
+    /**
+     * GEOFilterAdSquad constructor.
+     * @param array $data
+     * @throws \Exception
+     */
+    public function __construct(array $data)
     {
         SnapchatEntity::__construct($data);
     }

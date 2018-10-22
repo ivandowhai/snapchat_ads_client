@@ -72,7 +72,7 @@ class Creative extends SnapchatEntity
         parent::__construct($data);
     }
 
-    protected function validateData()
+    protected function validateData(): void
     {
         parent::validateData();
         $this->validateInArray('type', 'types');
@@ -80,7 +80,7 @@ class Creative extends SnapchatEntity
         $this->validateInArray('top_snap_crop_position', 'top_snap_crop_positions');
         $this->validateIsBool('shareable');
 
-        if (array_key_exists('headline', $data) && strlen($data['headline']) > self::HEADLINE_MAX_LENGTH) {
+        if (array_key_exists('headline', $this->data) && strlen($this->data['headline']) > self::HEADLINE_MAX_LENGTH) {
             $this->addError('Headline can`t be longest ' . self::HEADLINE_MAX_LENGTH . ' characters');
         }
     }

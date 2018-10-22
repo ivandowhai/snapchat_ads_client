@@ -16,12 +16,17 @@ class CreationSpec extends SnapchatEntity
     public $seed_segment_id;
     public $type = self::TYPE_BALANCE;
 
+    /**
+     * CreationSpec constructor.
+     * @param array $data
+     * @throws \Exception
+     */
     public function __construct(array $data)
     {
         parent::__construct($data);
     }
 
-    protected function validateData()
+    protected function validateData(): void
     {
         parent::validateData();
         $this->validateInArray('type', 'types');

@@ -96,14 +96,20 @@ class AdSquad extends SnapchatEntity
     public $pixel_id;
 
 
-    public function __construct($data)
+    /**
+     * AdSquad constructor.
+     * @param array $data
+     * @throws \Exception
+     */
+    public function __construct(array $data)
     {
         parent::__construct($data);
         $this->billing_event = self::BILLING_EVENT_IMPRESSION;
         $this->type = self::TYPE_SNAP_ADS;
     }
 
-    protected function validateData()
+
+    protected function validateData(): void
     {
         parent::validateData();
         $this->validateInArray('optimization_goal', 'optimisation_goals');
@@ -125,6 +131,10 @@ class AdSquad extends SnapchatEntity
     }
 
 
+    /**
+     * @param $types
+     * @return bool|string
+     */
     private function validateContentTypes($types)
     {
         $invalidTypes = [];

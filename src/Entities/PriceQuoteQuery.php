@@ -9,12 +9,17 @@ class PriceQuoteQuery extends SnapchatEntity
     public $end_time;
     public $targeting;
 
+    /**
+     * PriceQuoteQuery constructor.
+     * @param array $data
+     * @throws \Exception
+     */
     public function __construct(array $data)
     {
         parent::__construct($data);
     }
 
-    protected function validateData(array $data)
+    protected function validateData(): void
     {
         parent::validateData();
         $this->validateInstanseof('targeting', 'Targeting');

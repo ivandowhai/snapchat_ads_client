@@ -92,6 +92,11 @@ class StatsQuery extends SnapchatEntity
     protected $requiredFields = ['granularity'];
 
 
+    /**
+     * StatsQuery constructor.
+     * @param array $data
+     * @throws \Exception
+     */
     public function __construct(array $data)
     {
         parent::__construct($data);
@@ -100,7 +105,7 @@ class StatsQuery extends SnapchatEntity
         }
     }
 
-    protected function validateData()
+    protected function validateData(): void
     {
         parent::validateData();
         $this->validateInArray('granularity', 'granularities');
@@ -111,14 +116,12 @@ class StatsQuery extends SnapchatEntity
         $this->validateIsBool('test');
     }
 
-    private function validateTimeBorders()
+    /**
+     * @return bool
+     */
+    private function validateTimeBorders(): bool
     {
-        if ($this->granularity === self::GRANULARITY_HOUR || $this->granularity === self::GRANULARITY_DAY) {
-            if (!$this->start_time || !$this->end_time) {
-                return false;
-            }
-        }
-        return true;
+        return $this->granularity === self::GRANULARITY_HOUR && $this->granularity === self::GRANULARITY_DAY && $this->start_time && $this->end_time;
     }
 
 }

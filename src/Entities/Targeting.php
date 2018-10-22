@@ -54,35 +54,54 @@ class Targeting extends SnapchatEntity
     public $segments;
     protected $requiredFields = ['geos'];
 
+
+    /**
+     * Targeting constructor.
+     * @param array $data
+     * @throws \Exception
+     */
     public function __construct(array $data)
     {
         parent::__construct($data);
     }
 
+    /**
+     * @return array
+     */
     public static function getParts(): array
     {
         return self::$parts;
     }
 
+    /**
+     * @return array
+     */
     public static function getDifficultParts() : array
     {
         return self::$difficultParts;
     }
 
-    protected function validateData()
+    /**
+     *
+     */
+    protected function validateData(): void
     {
         parent::validateData();
 
         foreach ($this->validateMethods as $key => $method) {
             if (isset($data[$key])) {
-                $this->$method($data[$key]);
+                $this->$method($this->data[$key]);
             }
         }
     }
 
     // TODO: other fields validation
 
-    private function validateGeos($geos)
+    /**
+     * @param $geos
+     * @return array
+     */
+    private function validateGeos(array $geos): array
     {
         if (!is_array($geos)) {
             return 'geos must be an array';
@@ -142,6 +161,12 @@ class Targeting extends SnapchatEntity
     }
 
 
+    /**
+     * @param string $part
+     * @param string $subpart
+     * @param string $advancedOption
+     * @throws \Exception
+     */
     public static function validateTargetingLinkParts(string $part, string $subpart, string $advancedOption)
     {
         if (!array_key_exists($part, self::$parts)) {

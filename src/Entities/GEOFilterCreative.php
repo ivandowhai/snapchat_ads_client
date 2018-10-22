@@ -11,6 +11,10 @@ class GEOFilterCreative extends Creative
 
     public $type = self::TYPE_GEO_FILTER;
 
+    /**
+     * GEOFilterCreative constructor.
+     * @param array $data
+     */
     public function __construct(array $data)
     {
         parent::__construct($data);

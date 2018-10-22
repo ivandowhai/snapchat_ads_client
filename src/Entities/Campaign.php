@@ -28,13 +28,18 @@ class Campaign extends SnapchatEntity
     public $lifetime_spend_cap_micro;
     public $measurement_spec;
 
+    /**
+     * Campaign constructor.
+     * @param $data
+     * @throws \Exception
+     */
     public function __construct($data)
     {
         parent::__construct($data);
         $this->status = in_array($data['status'], self::$statuses) ? $data['status'] : self::STATUS_PAUSED;
     }
 
-    protected function validateData()
+    protected function validateData(): void
     {
         parent::validateData();
         $this->validateInArray('status', 'statuses');

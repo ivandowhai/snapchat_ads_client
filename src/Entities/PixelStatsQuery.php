@@ -24,12 +24,17 @@ class PixelStatsQuery extends SnapchatEntity
     protected $requiredFields = ['start_time', 'end_time', 'granularity', 'domain', 'fields'];
 
 
+    /**
+     * PixelStatsQuery constructor.
+     * @param array $data
+     * @throws \Exception
+     */
     public function __construct(array $data)
     {
         parent::__construct($data);
     }
 
-    protected function validateData()
+    protected function validateData(): void
     {
         parent::validateData();
         $this->validateInArray('granularity', 'granularities');
@@ -39,7 +44,10 @@ class PixelStatsQuery extends SnapchatEntity
         }
     }
 
-    private function validateFields($fields)
+    /**
+     * @param array $fields
+     */
+    private function validateFields(array $fields): void
     {
         $invalidFields = [];
         foreach ($fields as $field) {
@@ -52,7 +60,10 @@ class PixelStatsQuery extends SnapchatEntity
         }
     }
 
-    public function getQueryParams() : array
+    /**
+     * @return array
+     */
+    public function getQueryParams(): array
     {
         return [
             'start_time' => $this->start_time,

@@ -16,12 +16,17 @@ class Pixel extends SnapchatEntity
 
     protected $requiredFields = ['id', 'name', 'ad_account_id'];
 
+    /**
+     * Pixel constructor.
+     * @param array $data
+     * @throws \Exception
+     */
     public function __construct(array $data)
     {
         parent::__construct($data);
     }
 
-    protected function validateData()
+    protected function validateData(): void
     {
         parent::validateData();
     }

@@ -30,18 +30,27 @@ class Media extends SnapchatEntity
     protected $readOnly = ['download_link', 'media_status'];
     protected $requiredFields = ['ad_account_id', 'name', 'type'];
 
+    /**
+     * Media constructor.
+     * @param array $data
+     * @throws \Exception
+     */
     public function __construct(array $data)
     {
         parent::__construct($data);
     }
 
-    protected function validateData()
+    protected function validateData(): void
     {
         parent::validateData();
         $this->validateInArray('type', 'types');
     }
 
-    public function validateImageForUpload($pathToFile) : array
+    /**
+     * @param string $pathToFile
+     * @return array
+     */
+    public function validateImageForUpload(string $pathToFile): array
     {
         $errors = [];
 
