@@ -1,0 +1,8 @@
+{
+  "apiDomain": "https://adsapi.snapchat.com",
+  "apiVersion": "v1",
+  "accessToken": "",
+  "refreshToken": "",
+  "tokenType": "",
+  "expiresIn": ""
+}

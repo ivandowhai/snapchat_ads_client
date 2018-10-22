@@ -7,14 +7,15 @@ use GuzzleHttp\Client;
 class HTTPClient implements HTTPClientInterface
 {
 
-    const API_DOMAIN = 'https://adsapi.snapchat.com';
-
-    const API_VERSION = 'v1';
-
     /**
      * @var Token
      */
     private $token;
+
+    /**
+     * @var Config
+     */
+    private $config;
 
     /**
      * @var Client
@@ -38,17 +39,38 @@ class HTTPClient implements HTTPClientInterface
 
     /**
      * HTTPClient constructor.
-     * @param $params
+     * @param Token $token
+     * @param Config $config
      */
-    public function __construct($params)
+    public function __construct(Token $token, Config $config)
     {
         try {
             $this->httpClient = new Client();
-            $this->token = $this->getToken($params);
+            $this->config = $config;
+            $this->token = $token;
             $this->makeHeaders();
         } catch (\Exception $exception) {
 //            self::logErrors($exception);
         }
+    }
+
+    /**
+     * @param array $params
+     * @return Token
+     * @throws \Exception
+     */
+    public function getToken(array $params): Token
+    {
+        $result = $this->httpClient->post('https://accounts.snapchat.com/login/oauth2/access_token', [
+            'body' => $params,
+            'headers' => ['Content-Type' => 'application/json']
+        ]);
+
+        if (isset($result['access_token'])) {
+            return new Token(json_decode($result->getBody()->getContents(), true));
+        }
+
+        throw new \Exception('Not access token');
     }
 
 
@@ -146,25 +168,11 @@ class HTTPClient implements HTTPClientInterface
     }
 
     /**
-     * @param array $params
-     * @return Token
-     * @throws \Exception
-     */
-    private function getToken(array $params): Token
-    {
-        $result = $this->post('https://accounts.snapchat.com/login/oauth2/access_token', $params);
-        if (isset($result['access_token'])) {
-            return new Token($result);
-        }
-        throw new \Exception('Not access token');
-    }
-
-    /**
      * @param string $url
      * @return string
      */
     private function makeURI(string $url): string
     {
-        return self::API_DOMAIN . DIRECTORY_SEPARATOR . self::API_VERSION . DIRECTORY_SEPARATOR . $url;
+        return $this->config->getApiDomain() . DIRECTORY_SEPARATOR . $this->config->getApiVersion() . DIRECTORY_SEPARATOR . $url;
     }
 }
